@@ -1,5 +1,6 @@
 const initialState = {
   list: ['Item A', 'Item B'],
+  newItem: '',
 };
 
 const reducers = (state = initialState, action) => {
@@ -15,7 +16,10 @@ const reducers = (state = initialState, action) => {
       return Object.assign({}, state, {
         list: newList,
       });
-
+    case 'UPDATE_NEW_ITEM':
+      return Object.assign({}, state, {
+        newItem: action.value,
+      });
     default:
       return state;
   }

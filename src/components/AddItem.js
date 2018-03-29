@@ -1,27 +1,17 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { addItemAction } from '../actions';
+import { addItemAction, updateNewItemAction } from '../actions';
 
 class AddItem extends Component {
-  constructor() {
-    super();
-
-    this.state = {
-      newItem: '',
-    };
-  }
-
   updateInputValue = evt => {
-    this.setState({
-      newItem: evt.target.value,
-    });
+    this.props.updateNewItemAction(evt.target.value);
   };
 
   addItem = () => {
-    const newItem = this.state.newItem;
+    const newItem = this.props.newItem;
     if (newItem) {
       this.props.addItemAction(newItem);
-      this.setState({ newItem: '' });
+      this.props.updateNewItemAction('');
     }
   };
 
@@ -30,7 +20,7 @@ class AddItem extends Component {
       <div>
         <input
           type="text"
-          value={this.state.newItem}
+          value={this.props.newItem}
           onChange={this.updateInputValue}
         />
         <button onClick={this.addItem}>Add</button>
@@ -42,11 +32,13 @@ class AddItem extends Component {
 const mapStateToProps = (state, ownProps) => {
   return {
     list: state.list,
+    newItem: state.newItem,
   };
 };
 
 const mapDispatchToProps = dispatch => ({
   addItemAction: item => dispatch(addItemAction(item)),
+  updateNewItemAction: newItem => dispatch(updateNewItemAction(newItem)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddItem);
